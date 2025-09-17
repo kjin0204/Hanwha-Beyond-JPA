@@ -147,19 +147,23 @@ public class EntityLifeCycleTest {
         transaction.begin();
 
         Menu foundMenu1 = entityManager.find(Menu.class, 11);
-        Menu foundMenu2 = entityManager.find(Menu.class, 11);
+        Menu foundMenu2 = entityManager.find(Menu.class, 12);
 
-//        entityManager.clear();      // 양속성 컨텍스트에 있는 모든 영속 상태의 엔티티를 준영속으로 변경
-        entityManager.close();        // 기존의 영속 상태의 엔티티들이 모두 준영속 상태가 되면서 영속성 컨텍스트가 파괴됨
-        entityManager = entityManagerFactory.createEntityManager();
-
-        foundMenu1.setMenuPrice(8000);
-        foundMenu2.setMenuPrice(8000);
-
+//        entityManager.clear();    // 영속성 컨텍스트에 있는 모든 영속 상태의 엔티티를 준영속으로 변경
+        entityManager.close();      // 기존의 영속 상태의 엔티티들이 모두 준영속 상태가 되면서 영속성 컨텍스트가 파괴됨
         transaction.commit();
 
-        Assertions.assertNotEquals(8000, entityManager.find(Menu.class,11));
-        Assertions.assertNotEquals(8000, entityManager.find(Menu.class,12));
+        entityManager = entityManagerFactory.createEntityManager();  // 새로 만듦
+        EntityTransaction transaction2 = entityManager.getTransaction();
+        transaction2.begin();
+
+        foundMenu1.setMenuPrice(14000);
+        foundMenu2.setMenuPrice(14000);
+
+        transaction2.commit();
+
+        Assertions.assertNotEquals(14000, entityManager.find(Menu.class, 11).getMenuPrice());
+        Assertions.assertNotEquals(14000, entityManager.find(Menu.class, 12).getMenuPrice());
     }
 
     @Test
