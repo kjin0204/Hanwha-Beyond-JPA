@@ -59,5 +59,47 @@ public class EntityManagerCRUDTest {
         entityManager.persist(menu); //영속상태로 바꿈
 
         transaction.commit();
+
+        Menu menu1 = entityManager.find(Menu.class,  menu.getMenuCode());
+        System.out.println("menu1 = " + menu1);
+        System.out.println("menu = " + menu);
+    }
+
+    @Test
+    public void 메뉴_이름_수정_테스트(){
+        /* 설명. 108번 메뉴 엔티티를 영속 상태로 만들어 받은 다음 */
+        Menu menu = entityManager.find(Menu.class,108);
+        System.out.println("수정 전 메뉴: " + menu);
+
+        String menuNameToChange= "갈치스무디";
+        EntityTransaction transaction = entityManager.getTransaction();
+        transaction.begin();
+
+        try{
+            //JPA는 수정한 부분만 update를 날리는게 아니라 모든 컬럼을 한번에 업데이트 함(덮어씌움)
+            menu.setMenuName(menuNameToChange);
+            transaction.commit();
+        }
+        catch(Exception e){
+            transaction.rollback();
+        }
+    }
+
+    @Test
+    public void 메뉴_삭제하기_테스트(){
+        Menu menu = entityManager.find(Menu.class, 108);
+        System.out.println("수정 전 메뉴: " + menu);
+
+        EntityTransaction transaction = entityManager.getTransaction();
+        transaction.begin();
+
+        try{
+            entityManager.remove(menu);
+            transaction.commit();
+        }
+        catch(Exception e){
+            transaction.rollback();
+        }
+
     }
 }
