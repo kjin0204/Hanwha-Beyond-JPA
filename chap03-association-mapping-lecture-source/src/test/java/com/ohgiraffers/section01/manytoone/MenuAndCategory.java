@@ -15,7 +15,16 @@ public class MenuAndCategory {
     @Column(name="menu_price")
     private int menuPrice;
 
-    @ManyToOne                          // 메뉴 -> 카테고리의 전체 카디널리티
+    /* 설명.
+     *  FetchType.LAZY(지연로딩)와 FetchType.EAGER(즉시로딩)
+     *  1. FetchType.EAGER는 연관관계를 미리 고려해서 해당 엔티티와 조인하는 쿼리가 작성됨
+     *    (항상 조인)
+     *  2. FetchType.LAZY는 연관관계를 나중에 필요한 시점에 고려하여 따로 select을 날려서
+     *     추가하는 개념(나중에 해당 필드를 접근하면 쿼리가 따로 발생)
+     *     (toString()에서 접근하는 것도 해당되므로 고려할 것)
+    * */
+
+    @ManyToOne(fetch = FetchType.LAZY)                          // 메뉴 -> 카테고리의 전체 카디널리티
     @JoinColumn(name="category_code")   // FK제약조건이 있는 컬럼(자식 테이블에 있는 컬럼명만 쓴다.)
     private Category cateogry;          // 메뉴 1개가 카테고리 엔티티 객체 몇개를 가지는지(List<타입>/타입)
 
@@ -79,7 +88,7 @@ public class MenuAndCategory {
                 "menuCode=" + menuCode +
                 ", menuName='" + menuName + '\'' +
                 ", menuPrice=" + menuPrice +
-                ", cateogry=" + cateogry +
+//                ", cateogry=" + cateogry +
                 ", orderableStatus='" + orderableStatus + '\'' +
                 '}';
     }
