@@ -8,6 +8,7 @@
         <class>com.ohgiraffers.section03.primarykey.subsection01.identity.Member</class>
         <class>com.ohgiraffers.section03.primarykey.subsection02.table.Member</class>
         <class>com.ohgiraffers.section04.enumtype.Member</class>
+        <class>com.ohgiraffers.section05.compositekey.subsection01.embedded.Member</class>
 
         <properties>
             <!-- 설명. 데이터베이스 연결 정보 -->
