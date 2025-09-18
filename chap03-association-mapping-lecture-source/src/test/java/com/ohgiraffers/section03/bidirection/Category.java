@@ -1,11 +1,10 @@
-package com.ohgiraffers.section01.manytoone;
+package com.ohgiraffers.section03.bidirection;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
-@Entity(name="category_section01")
+import java.util.List;
+
+@Entity(name="bidirection_category")
 @Table(name="tbl_category")
 public class Category {
 
@@ -16,18 +15,21 @@ public class Category {
     @Column(name="category_name")
     private String categoryName;
 
-
     /* 설명. null값이 들어갈 수 있는 엔티티의 필드는 참조자료형을 쓰자 */
     @Column(name="ref_category_code")
     private Integer refCategoryCode;
 
+    @OneToMany(mappedBy = "category")
+    private List<Menu> menuList;
+
     public Category() {
     }
 
-    public Category(int categoryCode, String categoryName, Integer refCategoryCode) {
+    public Category(int categoryCode, String categoryName, Integer refCategoryCode, List<Menu> menuList) {
         this.categoryCode = categoryCode;
         this.categoryName = categoryName;
         this.refCategoryCode = refCategoryCode;
+        this.menuList = menuList;
     }
 
     public int getCategoryCode() {
@@ -54,12 +56,21 @@ public class Category {
         this.refCategoryCode = refCategoryCode;
     }
 
+    public List<Menu> getMenuList() {
+        return menuList;
+    }
+
+    public void setMenuList(List<Menu> menuList) {
+        this.menuList = menuList;
+    }
+
     @Override
     public String toString() {
         return "Category{" +
                 "categoryCode=" + categoryCode +
                 ", categoryName='" + categoryName + '\'' +
                 ", refCategoryCode=" + refCategoryCode +
+//                ", menuList=" + menuList +
                 '}';
     }
 }
