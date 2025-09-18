@@ -1,4 +1,5 @@
-package com.ohgiraffers.section03.primarykey.subsection01.identity;
+package com.ohgiraffers.section03.primarykey.subsection02.table;
+
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
@@ -6,7 +7,7 @@ import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.Persistence;
 import org.junit.jupiter.api.*;
 
-public class PrimaryKeyMappingTest {
+public class SequenceTableMappingTest {
     private static EntityManagerFactory entityManagerFactory;
     private EntityManager entityManager;
 
@@ -30,6 +31,7 @@ public class PrimaryKeyMappingTest {
     public static void closeFactory() {
         entityManagerFactory.close();
     }
+
 
     @Test
     public void 식별자_매핑_테스트(){
@@ -63,16 +65,15 @@ public class PrimaryKeyMappingTest {
         entityManager.persist(member2);
 
 
-        /* 설명. PK전략을 GenerationType.TABLE로 가져가면 commit 시점에 insert가 무조건 발생한다. */
+        /* 설명. PK전략을 GenerationType.IDENTITY로 가져가면 persist 시점에 insert가 무조건 발생한다(즉시 flush() 호출됨) */
         Member selectedMember = entityManager.find(Member.class, 1);
         System.out.println("selectedMember = " + selectedMember);
         System.out.println("member = " + member);
         System.out.println("member2 = " + member2);
-        
+
         transaction.commit();
-        
+
         /* 설명. insert 전에 영속상태의 엔티티 객체에는 pk값이 없었지만 persist 이후 find 시에는 존재 */
         /* 설명. persist 시점에 insert가 날아감 */
     }
-
 }
