@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("/menu")
 @Slf4j // logger를 롬복으로 대체
@@ -44,4 +46,16 @@ public class MenuController {
 
         return "menu/detail";
     }
+
+    /* 설명. 페이징 처리 전 */
+    @GetMapping("/list")
+    public String findMenuList(Model model){
+        List<MenuDTO> mesuList = menuService.findMenuList();
+
+        model.addAttribute("menuList", mesuList);
+
+        return "menu/list";
+    }
+
+
 }
