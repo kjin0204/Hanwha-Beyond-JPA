@@ -36,6 +36,7 @@ public class EntityMappingTest {
 
         //given
         Member member = new Member();
+
         member.setMemberNo(1);
         member.setMemberId("user01");
         member.setMemberPwd("pass01");
