@@ -94,4 +94,19 @@ public class MenuService {
     public void registMenu(MenuDTO newMenu) {
         menuRepository.save(modelMapper.map(newMenu, Menu.class));
     }
+
+    /* 설명. 6. update 진행 */
+    @Transactional
+    public void modifyMenu(MenuDTO modifyMenu) {
+        /* 설명. 수정 할 메뉴를 가져와서(영속 상태로 만들어) 영속 상태인 객체를 수정하면 update */
+        Menu foundMenu = menuRepository.findById(modifyMenu.getMenuCode()).get();
+        foundMenu.setMenuName(modifyMenu.getMenuName());
+
+    }
+
+    /* 설명. 7. delete 진행 */
+    @Transactional
+    public void deleteMenu(int menuCode) {
+        menuRepository.deleteById(menuCode);
+    }
 }

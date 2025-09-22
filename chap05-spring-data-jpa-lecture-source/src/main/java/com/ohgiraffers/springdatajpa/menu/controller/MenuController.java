@@ -75,7 +75,7 @@ public class MenuController {
 
     /* 설명. 페이징 처리 후 */
     @GetMapping("/list")
-    public String findMenuList(@PageableDefault(size = 2) Pageable pageable, Model model) {
+    public String findMenuList(@PageableDefault(size = 15) Pageable pageable, Model model) {
         log.debug("pageable : {}", pageable);
         Page<MenuDTO> menuList = menuService.findMenuList(pageable);
 
@@ -114,6 +114,25 @@ public class MenuController {
     @PostMapping("/regist")
     public String registMenu(MenuDTO newMenu) {
         menuService.registMenu(newMenu);
+        return "redirect:/menu/list";
+    }
+
+    @GetMapping("/modify")
+    public void modifyMenuPage(){}
+
+    @PostMapping("/modify")
+    public String modifyMenu(MenuDTO modifyMenu){
+        menuService.modifyMenu(modifyMenu);
+        System.out.println("modifyMenu = " + modifyMenu);
+        return "redirect:/menu/" + modifyMenu.getMenuCode();
+    }
+
+    @GetMapping("/delete")
+    public void deleteMenuPage(){}
+
+    @PostMapping("/delete")
+    public String deleteMenu(@RequestParam int menuCode){
+        menuService.deleteMenu(menuCode);
 
         return "redirect:/menu/list";
     }
