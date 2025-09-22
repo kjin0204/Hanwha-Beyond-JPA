@@ -137,5 +137,17 @@ public class MenuController {
         return "redirect:/menu/list";
     }
 
+    @GetMapping("/querymethod")
+    public void querymethodPage(){}
+
+    @GetMapping("/search")
+    public String findMenuPrice(@RequestParam int menuPrice ,Model model){
+        List<MenuDTO> menuList = menuService.findMenuPrice(menuPrice);
+
+        model.addAttribute("menuList", menuList);
+        model.addAttribute("menuPrice", menuPrice);
+
+        return "menu/searchResult";
+    }
 
 }

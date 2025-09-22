@@ -109,4 +109,13 @@ public class MenuService {
     public void deleteMenu(int menuCode) {
         menuRepository.deleteById(menuCode);
     }
+
+    /* 설명. 8. 쿼리 메소드 활용하기 */
+    public List<MenuDTO> findMenuPrice(int menuPrice) {
+        List<Menu> menus = menuRepository.findByMenuPriceGreaterThan(menuPrice);
+
+        return menus.stream()
+                .map(menu -> modelMapper.map(menu, MenuDTO.class))
+                .collect(Collectors.toList());
+    }
 }
